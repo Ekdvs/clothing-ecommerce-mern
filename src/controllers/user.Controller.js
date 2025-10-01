@@ -1,4 +1,8 @@
 import UserModel from "../models/User.js";
+import bcrypt from 'bcryptjs';
+import generatedAccesToken from "../utill/generatedAccesToken.js";
+import generateRefreshToken from "../utill/generatedRefreshToken.js";
+import { sendWelcomeEmail } from "../emails/sendMail.js";
 
 export const registerUsers=async(request,response)=>{
     try {
@@ -38,6 +42,8 @@ export const registerUsers=async(request,response)=>{
 
         //send email verifylink
         const verifyurl=`${process.env.FRONTEND_URL}/verify-email?code=${newUser?._id}`;
+        //sending mail
+        await sendWelcomeEmail(newUser,verifyurl);
 
         return response.status(201).json({
             message:'User Registered Successfully',
@@ -109,7 +115,7 @@ export const loginUser=async(request,response)=>{
 
         //access and refesh token create
         const accessToken=await generatedAccesToken(user);
-        const refreshToken=await generatedRefreshToken(user._id);
+        const refreshToken=await generateRefreshToken(user._id);
 
         //update last login 
         const updateUser=await UserModel.findOneAndUpdate(user._id,{

@@ -1,6 +1,6 @@
 import express from "express";
-import { addItem, getCart, removeItem, updateItem } from "../controllers/cart.Controller";
-import auth from "../middlewares/auth";
+import { addItem, getCart, removeItem, updateItem } from "../controllers/cart.Controller.js";
+import auth from "../middlewares/auth.js";
 
 
 const cartRouter = express.Router();
@@ -16,3 +16,5 @@ cartRouter.put("/update", auth, updateItem);
 
 //Remove item from cart
 cartRouter.delete("/remove/:itemId", auth, removeItem);
+
+export default cartRouter;
