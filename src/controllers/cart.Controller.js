@@ -187,8 +187,8 @@ export const removeItem = async (request, response) => {
       });
     }
 
-    const item = cart.items.id(itemId);
-    if (!item) {
+    const itemExists = cart.items.some(i => i._id.toString() === itemId);
+    if (!itemExists) {
       return response.status(404).json({
         message: "Item not found in cart",
         error: true,
@@ -196,7 +196,8 @@ export const removeItem = async (request, response) => {
       });
     }
 
-    item.remove();
+    // Remove item manually
+    cart.items = cart.items.filter(i => i._id.toString() !== itemId);
     await cart.save();
 
     return response.status(200).json({
@@ -206,7 +207,7 @@ export const removeItem = async (request, response) => {
       data: cart,
     });
   } catch (error) {
-    console.error("removeItem error:", error.message);
+    console.error("removeItem error:", error);
     return response.status(500).json({
       message: "Internal server error",
       error: true,
