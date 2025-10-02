@@ -22,6 +22,7 @@ export const getCart = async (request, response) => {
         success: false,
       });
     }
+    console.log(cart)
 
     return response.status(200).json({
       message: "Successfully fetched cart items",
@@ -99,7 +100,8 @@ export const addItem = async (request, response) => {
 export const updateItem = async (request, response) => {
   try {
     const userId = request.userId;
-    const { itemId, quantity } = request.body;
+    const {  quantity } = request.body;
+    const {itemId}=request.params
 
     if (!userId) {
       return response.status(401).json({

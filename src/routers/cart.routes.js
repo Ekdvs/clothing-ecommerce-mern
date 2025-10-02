@@ -12,7 +12,7 @@ cartRouter.get("/", auth, getCart);
 cartRouter.post("/add", auth, addItem);
 
 //Update item quantity in cart
-cartRouter.put("/update", auth, updateItem);
+cartRouter.put("/update/:itemId", auth, updateItem);
 
 //Remove item from cart
 cartRouter.delete("/remove/:itemId", auth, removeItem);

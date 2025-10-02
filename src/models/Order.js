@@ -29,7 +29,12 @@ const orderItemSchema = new mongoose.Schema(
 );
 
 const orderSchema = new mongoose.Schema(
-  {
+  { 
+    orderId: {
+      type: String,
+      unique: true,
+      default: ""
+    },
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
@@ -61,6 +66,10 @@ const orderSchema = new mongoose.Schema(
       type: String,
       enum: ["Pending", "Processing", "Shipped", "Delivered", "Canceled"],
       default: "Pending",
+    },
+    orderDate: { 
+      type: Date, 
+      default: Date.now
     },
   },
   {
